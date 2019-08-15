@@ -13,4 +13,5 @@
 @property (nonatomic, assign) float speed;
 @property (nonatomic, assign) BOOL set;
 @property (nonatomic, assign) BOOL inDeadZone;
+@property (nonatomic, assign) double acceleration;
 @end

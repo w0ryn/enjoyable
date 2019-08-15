@@ -85,16 +85,16 @@ static CGFloat pointRectSquaredDistance(NSPoint p, NSRect r) {
     CGFloat dx = 0, dy = 0;
     switch (_axis) {
         case 0:
-            dx = -self.magnitude * _speed;
+            dx = -self.magnitude * _speed * self.acceleration;
             break;
         case 1:
-            dx = self.magnitude * _speed;
+            dx = self.magnitude * _speed * self.acceleration;
             break;
         case 2:
-            dy = -self.magnitude * _speed;
+            dy = -self.magnitude * _speed * self.acceleration;
             break;
         case 3:
-            dy = self.magnitude * _speed;
+            dy = self.magnitude * _speed * self.acceleration;
             break;
     }
 
@@ -103,6 +103,14 @@ static CGFloat pointRectSquaredDistance(NSPoint p, NSRect r) {
     NSScreen* screen = [self screenContaining:mouseLoc];
     if (!screen) {
         mouseLoc = [self clampToScreen:mouseLoc screen:[self nearestScreenTo:mouseLoc]];
+    }
+
+    if ( self.acceleration < .05 ) {
+	self.acceleration += .01;
+    } else if ( self.acceleration < 1 ) {
+    	self.acceleration += .15;
+    } else {
+	self.acceleration += .05;
     }
 
     return mouseLoc;
@@ -148,6 +156,7 @@ static CGFloat pointRectSquaredDistance(NSPoint p, NSRect r) {
         }
         self.inDeadZone = YES;
         self.magnitude = 0;
+	self.acceleration = 0;
     } else {
         self.inDeadZone = NO;
     }
