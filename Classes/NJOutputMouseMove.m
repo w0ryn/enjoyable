@@ -108,9 +108,11 @@ static CGFloat pointRectSquaredDistance(NSPoint p, NSRect r) {
     if ( self.acceleration < .05 ) {
 	self.acceleration += .01;
     } else if ( self.acceleration < 1 ) {
-    	self.acceleration += .15;
-    } else {
+    	self.acceleration += .25;
+    } else if ( self.acceleration < 2 ) {
 	self.acceleration += .05;
+    } else {
+	self.acceleration += .25;
     }
 
     return mouseLoc;
